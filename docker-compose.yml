@@ -22,7 +22,6 @@ services:
       - "9000:9000"
     volumes:
       - ./docker/php/php.ini:/usr/local/etc/php/php.ini:delegated
-      - ./docker/php/log:/var/log/php:delegated
       - ./site:/var/www
 
   mysql:
