@@ -1,3 +1,6 @@
+*.idea
+*.env
+
 # Keep mysql data folder
 /docker/mysql/data/*
 !/docker/mysql/data/.gitkeep
