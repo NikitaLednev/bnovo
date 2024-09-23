@@ -1,0 +1,7 @@
+# Keep mysql data folder
+/docker/mysql/data/*
+!/docker/mysql/data/.gitkeep
+
+# Keep nginx configs folder
+/docker/nginx/conf.d/*
+!/docker/nginx/conf.d/example.conf

@@ -1,0 +1,41 @@
+version: "3.8"
+
+services:
+  nginx:
+    image: nginx:alpine
+    container_name: ${PROJECT_NAME}-nginx
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d:delegated
+      - ./site:/var/www:delegated
+  php:
+    container_name: ${PROJECT_NAME}-php
+    build:
+      context: ./docker/php
+      dockerfile: Dockerfile
+    depends_on:
+      - nginx
+      - mysql
+    ports:
+      - "9000:9000"
+    volumes:
+      - ./docker/php/php.ini:/usr/local/etc/php/php.ini:delegated
+      - ./docker/php/log:/var/log/php:delegated
+      - ./site:/var/www
+
+  mysql:
+    container_name: ${PROJECT_NAME}-mysql
+    platform: linux/x86_64
+    image: mysql:5.7
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASS}
+      MYSQL_DATABASE: ${MYSQL_DB}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASS}
+    volumes:
+      - ./docker/mysql/data:/var/lib/mysql
